@@ -1,13 +1,23 @@
 cmake_minimum_required(VERSION 3.23)
 project(chk_common)
 
-add_subdirectory(external/fmt)
+if (NOT TARGET fmt::fmt)
+    add_subdirectory(external/fmt)
+endif()
 
-SET(SPDLOG_FMT_EXTERNAL ON CACHE BOOL "Use our own fmt, as it's newer and fixes some known bugs" FORCE)
-add_subdirectory(external/spdlog)
+if (NOT TARGET spdlog::spdlog)
+    SET(SPDLOG_FMT_EXTERNAL ON CACHE BOOL "Use our own fmt, as it's newer and fixes some known bugs" FORCE)
+    add_subdirectory(external/spdlog)
+endif()
 
-add_subdirectory(external/magic_enum)
-add_subdirectory(external/argparse)
+if (NOT TARGET magic_enum::magic_enum)
+    add_subdirectory(external/magic_enum)
+endif()
+
+if (NOT TARGET argparse)
+    add_subdirectory(external/argparse)
+endif()
+
 
 add_library(chk_common
     "src/common/args.hpp"
@@ -27,6 +37,7 @@ add_library(chk_common
     "src/common/utils.hpp"
 )
 
+target_link_libraries(chk_common PUBLIC fmt::fmt)
 target_link_libraries(chk_common PUBLIC spdlog::spdlog)
 target_link_libraries(chk_common PUBLIC magic_enum::magic_enum)
 target_link_libraries(chk_common PUBLIC argparse)
