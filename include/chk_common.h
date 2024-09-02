@@ -22,7 +22,7 @@ typedef double f64;
 #define chk_log(sender, msg)                                                   \
     chk_log_impl((sender), (msg), __FILE__, __LINE__, __func__);
 #define chk_log_f(sender, msg, ...)                                            \
-    chk_log_impl((sender), (msg), __FILE__, __LINE__, __func__, __VA_ARGS__);
+    chk_log_f_impl((sender), (msg), __FILE__, __LINE__, __func__, __VA_ARGS__);
 
 void chk_log_impl(const char* sender, const char* msg, const char* file,
                   u32 line, const char* func);
